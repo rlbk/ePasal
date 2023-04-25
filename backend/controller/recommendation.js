@@ -17,7 +17,7 @@ router.get('/getRecommendation', async (req, res) => {
     const recommendadtion = await Product.aggregate([
       {
         $match: {
-          "ratings": { $not: { $type: "number" } },
+          "ratings": { $not: { $type: "string" } },
           "category": req.query.category,
           "_id":{$ne:monk.id(req.query._id)}
         }
