@@ -102,7 +102,7 @@ const AllEvents = () => {
       row.push({
         id: item._id,
         name: item.name,
-        price: "US$ " + item.discountPrice,
+        price: "NPR Rs " + item.discountPrice,
         Stock: item.stock,
         sold: 10,
       });

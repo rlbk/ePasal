@@ -86,6 +86,7 @@ export const deleteEvent = (id) => async (dispatch) => {
         payload: data.events,
       });
     } catch (error) {
+
       dispatch({
         type: "getAlleventsFailed",
         payload: error.response.data.message,
