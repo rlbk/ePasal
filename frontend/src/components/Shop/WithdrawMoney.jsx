@@ -25,7 +25,7 @@ const WithdrawMoney = () => {
   return (
     <div className='w-full h-[90vh] p-8'>
           <div className="w-full bg-white h-full rounded flex items-center justify-center flex-col">
-                <h5 className='text-[20px] pb-4'>Available Balance: ${availableBalance}</h5>
+                <h5 className='text-[20px] pb-4'>Available Balance: Rs {availableBalance}</h5>
                 <div className={`${styles.button} text-white !h-[42px] !rounded`}>
                      Withdraw
                 </div>

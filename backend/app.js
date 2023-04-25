@@ -33,6 +33,7 @@ const coupon = require("./controller/coupounCode");
 const order = require("./controller/order");
 const conversation = require("./controller/conversation");
 const message = require("./controller/message");
+const recommendation = require("./controller/recommendation")
 
 
 app.use("/api/v2/user", user);
@@ -43,6 +44,7 @@ app.use("/api/v2/shop", shop);
 app.use("/api/v2/product", product);
 app.use("/api/v2/event", event);
 app.use("/api/v2/coupon", coupon);
+app.use("/api/v2/recommendation",recommendation)
 // app.use("/api/v2/payment", payment);
 
 
