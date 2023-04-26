@@ -8,52 +8,91 @@ const Shop = require("../model/shop");
 const { upload } = require("../multer");
 const ErrorHandler = require("../utils/ErrorHandler");
 const fs = require("fs");
-const monk = require('monk');
+const monk = require("monk");
 
+router.get("/getRecommendation", async (req, res) => {
+  let product = await Product.updateMany({}, [
+    {
+      $addFields: {
+        reviewsCount: {
+          $convert: {
+            input: { $size: "$reviews" },
+            to: "int",
+          },
+        },
+      },
+    },
+  ]);
+  if (product) {
+    const result = await Product.findOne({ _id: req.query._id });
 
-
-
-router.get('/getRecommendation', async (req, res) => {
-    const recommendadtion = await Product.aggregate([
+    const recommendation = await Product.aggregate([
       {
         $match: {
-          "ratings": { $not: { $type: "string" } },
-          "category": req.query.category,
-          "_id":{$ne:monk.id(req.query._id)}
-        }
+          rating: { $not: { $type: "string" } },
+          reviewsCount: { $not: { $type: "string" } },
+          category: result.category,
+          _id: { $ne: result._id },
+        },
       },
       {
         $project: {
           name: 1,
-          sold_out: 1,
+          description: 1,
+          tags: 1,
+          originalPrice: 1,
+          discountPricea: 1,
           stock: 1,
-          category:1,
+          images: 1,
+          shopId: 1,
+          shop: 1,
+          sold_out: 1,
+          ratings: 1,
+          reviews: 1,
+          category: 1,
+          reviewsCount: 1,
           distance: {
             $sqrt: {
               $add: [
-                { $pow: [{ $subtract: [Number(req.query.ratings), "$ratings"] }, 2] }
-              ]
-            }
-          }
-        }
+                {
+                  $pow: [
+                    {
+                      $subtract: [
+                        Number(result.reviewsCount),
+                        Number("$reviewsCount"),
+                      ],
+                    },
+                    2,
+                  ],
+                },
+                {
+                  $pow: [
+                    { $subtract: [Number(result.ratings), Number("$ratings")] },
+                    2,
+                  ],
+                },
+              ],
+            },
+          },
+        },
       },
       {
         $match: {
-          distance: { $ne: null }
-        }
+          distance: { $ne: null },
+        },
       },
       {
         $sort: { distance: 1 },
       },
       {
-        $limit: 5
-      }
-    ])
-  
-    res.json({
-      recommendadtion
-    })
-  })
-  
+        $limit: 5,
+      },
+    ]);
 
-  module.exports = router
+    res.json({
+      recommendation,
+    });
+  }
+});
+
+module.exports = router;

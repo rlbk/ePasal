@@ -9,9 +9,12 @@ const SuggestedProduct = ({ data }) => {
   const [productData,setProductData] = useState();
 
   useEffect(() => {
-    const d =
-    allProducts && allProducts.filter((i) => i.category === data.category && i.ratings >= data.ratings && i.reviews.length >= data.reviews.length);
-    setProductData(d);
+    fetch(`http://localhost:8000/api/v2/recommendation/getRecommendation?_id=${data._id}`)
+    .then(data => data.json()).then(data=>{
+      setProductData(data.recommendation)})
+    // const d =
+    // allProducts && allProducts.filter((i) => i.category === data.category && i.ratings >= data.ratings && i.reviews.length >= data.reviews.length);
+    // setProductData(d);
   }, []);
 
 

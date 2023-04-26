@@ -70,7 +70,10 @@ const productSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
-  },
+  },reviewsCount:{
+    type:Number,
+    default:0
+  }
 });
 
 module.exports = mongoose.model("Product", productSchema);
