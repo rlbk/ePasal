@@ -1,31 +1,40 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
-import { useCartContext } from "../context/Cartcontext";
+// import { useCartContext } from "../context/Cartcontext";
 
-import esewa   from "../assets/esewa  _logo.png";
+// import esewa   from "../assets/esewa  _logo.png";
 
 const Payment = () => {
-  const {
-    cart,
-    removeItem,
-    clearCart,
-    totalItem,
-    totalAmount,
-    increment,
-    decrement,
-  } = useCartContext();
+//   const {
+//     cart,
+//     removeItem,
+//     clearCart,
+//     totalItem,
+//     totalAmount,
+//     increment,
+//     decrement,
+  // } = useCartContext();
+  const totalAmount = 10000;
+ 
+  const { cart } = useSelector((state) => state.cart);
+ 
+  const totalPrice = cart.reduce(
+    (acc, item) => acc + 100 + item.qty * item.discountPrice,
+    0
+  );
 
-  var path = "https://uat.esewa  .com.np/epay/main";
+  var path = "https://uat.esewa.com.np/epay/main";
   var params = {
-    amt: totalAmount,
+    amt: totalPrice,
     psc: 0,
     pdc: 0,
     txAmt: 0,
-    tAmt: totalAmount,
+    tAmt: totalPrice,
     pid: "ee2c3ca1-696b-4cc5-a6be-2c40d929d453",
     scd: "EPAYTEST",
-    su: "http://merchant.com.np/page/esewa  _payment_success",
-    fu: "http://merchant.com.np/page/esewa  _payment_failed",
+    su: "http://merchant.com.np/page/esewa_payment_success",
+    fu: "http://merchant.com.np/page/esewa_payment_failed",
   };
 
   function post(path, params) {
@@ -59,7 +68,7 @@ const Payment = () => {
         type="hidden"
       />
       <input
-        value="http://merchant.com.np/page/esewa  _payment_success?q=su"
+        value="http://merchant.com.np/page/esewa_payment_success?q=su"
         type="hidden"
         name="su"
       />
@@ -68,7 +77,7 @@ const Payment = () => {
         type="hidden"
         name="fu"
       />
-      <img src={esewa  } alt="" />
+
       <input value="Submit" type="submit" onClick={post(path, params)} />
     </>
   );

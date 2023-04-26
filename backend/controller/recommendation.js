@@ -1,14 +1,6 @@
 const express = require("express");
-const { isSeller, isAuthenticated } = require("../middleware/auth");
-const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const router = express.Router();
 const Product = require("../model/product");
-const Order = require("../model/order");
-const Shop = require("../model/shop");
-const { upload } = require("../multer");
-const ErrorHandler = require("../utils/ErrorHandler");
-const fs = require("fs");
-const monk = require("monk");
 
 router.get("/getRecommendation", async (req, res) => {
   let product = await Product.updateMany({}, [

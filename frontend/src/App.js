@@ -50,6 +50,7 @@ import axios from "axios";
 import { server } from "./server";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import Payment from "./esewa";
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState("");
@@ -84,6 +85,7 @@ const App = () => {
       )}
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/esewa" element={<Payment/>}/>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/sign-up" element={<SignupPage />} />
         <Route
